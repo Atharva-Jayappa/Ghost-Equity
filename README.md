@@ -1,16 +1,16 @@
-# Financial-Forensics-Agent 🚀
+# # 🕵️‍♂️ GhostEquity  : Legacy Stock Discovery and Valuation Agent  
 
-Financial-Forensics-Agent is a Python-based toolkit for analyzing old shareholding certificates and investigating the current status and value of historical company shares. It leverages Google GenAI (Gemini), yfinance, and FastMCP to automate extraction, validation, and valuation of legacy financial documents.
+GhostEquity is a Python-based Agent for analyzing old shareholding certificates and investigating the current status and value of historical company shares. It leverages Google Gemini, yfinance, and FastMCP to automate extraction, validation, and valuation of legacy financial documents.
 
 ---
 
 ## 📝 What does it do?
 
 1. **Extracts Data from Share Certificates:**  
-   Uses Google GenAI to process scanned images of old share certificates and extract key fields (company name, shareholder, issue date, number of shares).
+   Uses Google Gemini to process scanned images of old share certificates and extract key fields (company name, shareholder, issue date, number of shares).
 
 2. **Checks Company Status:**  
-   Uses a custom tool (with Google Search via Gemini) to determine if the company is still active, has merged, been acquired, or dissolved, and fetches the latest ticker and relevant info.
+   Uses a custom tool (with Google's Search grounding via Gemini) to determine if the company is still active, has merged, been acquired, or dissolved, and fetches the latest ticker and relevant info.
 
 3. **Estimates Share Value:**  
    If the company is still listed, fetches the latest share price from NSE (via yfinance) and estimates the total value of the shares.
