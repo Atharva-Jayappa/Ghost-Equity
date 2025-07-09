@@ -1,4 +1,4 @@
-# # 🕵️‍♂️ GhostEquity  : Legacy Stock Discovery and Valuation Agent  
+# 🕵️‍♂️ GhostEquity  : Legacy Stock Discovery & Valuation Agent  
 
 GhostEquity is a Python-based Agent for analyzing old shareholding certificates and investigating the current status and value of historical company shares. It leverages Google Gemini, yfinance, and FastMCP to automate extraction, validation, and valuation of legacy financial documents.
 
