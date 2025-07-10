@@ -28,6 +28,10 @@ GhostEquity is a Python-based Agent for analyzing old shareholding certificates 
 - **Modular Tooling** via FastMCP for easy extension.
 - **JSON-based APIs** for integration and automation.
 
+## Screenshot
+
+![UI Screenshot](assets/UI.png)
+
 ---
 
 ## 📦 Requirements
