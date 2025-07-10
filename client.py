@@ -1,5 +1,6 @@
 import asyncio
 import json
+import regex as re
 
 from google.genai import types
 from google.genai.types import Part, Content
@@ -16,7 +17,7 @@ def extract_data(image_bytes) -> dict | None:
     Process the image bytes of the shareholding certificate and extract relevant data.
 
     :param image_bytes:   The bytestream of the image to be processed.
-    :return:  The dict {"field": ..., "value": ...} of the data extracted from the image.
+    :return:  The structured JSON Schema of the data extracted from the image.
 
     """
     prompt = """
@@ -62,12 +63,17 @@ def extract_data(image_bytes) -> dict | None:
     print(response.text)
 
     try:
-        result = json.loads(response.text)
-        if isinstance(result, dict) and 'field' in result and 'value' in result:
-            return result
-        else:
-            print("Invalid response format.")
-            return None
+
+        json_raw = response.candidates[0].content.parts[0].text
+        # Remove markdown code fences if present
+        json_raw = re.sub(r"^```(?:json)?\s*", "", json_raw, flags=re.MULTILINE)
+        json_raw = re.sub(r"\s*```$", "", json_raw, flags=re.MULTILINE)
+        # Parse the cleaned JSON text
+
+        result = json.loads(json_raw)
+
+        return result
+
     except json.JSONDecodeError:
         print("Failed to decode JSON response.")
         return None
@@ -140,31 +146,29 @@ async def main(extracted_json: json):
                     ),
                 ),
             )
-            print(response.text)
+
+            return response.text
 
 
-if __name__ == "__main__":
-
-    # Load the image bytes from a file (for testing purposes)
-
-    #TODO (later): Automate the image loading part from the command line arguments
-    #TODO (later): Can possibly add a gradio interface to upload the image and process it
-
-    # Replace with the path to your image file
-    with open("test_image.jpg", "rb") as f:
-        image_bytes = f.read()
-
-    data = extract_data(image_bytes=image_bytes)
-
-    print("Extracted Data" + str(data))
-
-    # Dummy data for testing
-
-    # data = {
-    #     "company_name": "India Tobacco Company Limited",
-    #     "shareholder_name": "John A. Doe",
-    #     "issue_date": "28-4-1973",
-    #     "number_of_shares": 50
-    # }
-
-    asyncio.run(main(extracted_json=data))
+# if __name__ == "__main__":
+#
+#     # Load the image bytes from a file (for testing purposes)
+#
+#     # Replace with the path to your image file
+#     with open("test_image.jpg", "rb") as f:
+#         image_bytes = f.read()
+#
+#     data = extract_data(image_bytes=image_bytes)
+#
+#     print("Extracted Data" + str(data))
+#
+#     # Dummy data for testing
+#
+#     # data = {
+#     #     "company_name": "India Tobacco Company Limited",
+#     #     "shareholder_name": "John A. Doe",
+#     #     "issue_date": "28-4-1973",
+#     #     "number_of_shares": 50
+#     # }
+#
+#     asyncio.run(main(extracted_json=data))
